@@ -4,22 +4,46 @@
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Itera — Hábitos y tareas con ciclos flexibles y privacidad total</title>
-  <meta name="description" content="App de hábitos y tareas con temporalidad propia por tarea, privacidad local-first y respaldo privado en Google Drive.">
+  <meta name="description" content="Organiza tus hábitos con cadencias flexibles, acompañamiento amable y privacidad local-first con respaldo en Google Drive.">
+  <link rel="icon" type="image/svg+xml" href="assets/itera_isotipo.svg">
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-  <link href="https://fonts.googleapis.com/css2?family=Comfortaa:wght@600;700&family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+  <link href="https://fonts.googleapis.com/css2?family=Comfortaa:wght@600;700&family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
   <style>
     :root {
-      --primary: #7C3AED;
-      --primary-dark: #280756;
-      --primary-light: #F5F3FF;
-      --accent: #9952DE;
-      --turquoise: #10B981;
-      --ink: #1F2937;
-      --ink-muted: #6B7280;
-      --bg: #FAF9F7;
-      --card-bg: #FFFFFF;
-      --border: #E5E7EB;
+      /* Paleta Oficial Tinta y Papel */
+      --paper: #FAF9F7;
+      --surface: #FFFFFF;
+      --surface-sunken: #F2F0EC;
+      --border: #E5E2DC;
+      --border-strong: #CFCAC1;
+      --ink: #1A1917;
+      --ink-muted: #6B6862;
+      --ink-faint: #96938C;
+      
+      /* Marca Itera */
+      --primary: #280756;
+      --primary-light: #4D027A;
+      --amethyst: #9952DE;
+      --accent: #05CDC2;
+      --ghost: #F0ECF1;
+      
+      /* Estados Semánticos de la App */
+      --done: #4C7A50;
+      --done-soft: #DCE8DC;
+      --due: #B07A26;
+      --due-soft: #F5E7CE;
+      --missed: #B3423A;
+      --missed-soft: #F3DCDA;
+      
+      --radius-sm: 8px;
+      --radius-md: 16px;
+      --radius-lg: 24px;
+      --radius-xl: 36px;
+      
+      --shadow-sm: 0 2px 8px rgba(26, 25, 23, 0.04);
+      --shadow-md: 0 8px 24px rgba(40, 7, 86, 0.08);
+      --shadow-lg: 0 20px 48px rgba(40, 7, 86, 0.12);
     }
 
     * {
@@ -28,451 +52,1187 @@
       padding: 0;
     }
 
-    body {
-      font-family: 'Inter', -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
-      background-color: var(--bg);
-      color: var(--ink);
-      line-height: 1.6;
+    html {
+      scroll-behavior: smooth;
     }
 
-    header {
-      max-width: 1100px;
+    body {
+      font-family: 'Inter', -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
+      background-color: var(--paper);
+      color: var(--ink);
+      line-height: 1.6;
+      overflow-x: hidden;
+    }
+
+    /* Tipografías */
+    h1, h2, h3, .brand-title {
+      font-family: 'Comfortaa', cursive, system-ui, sans-serif;
+      color: var(--primary);
+    }
+
+    /* Animaciones CSS */
+    @keyframes floatSlow {
+      0%, 100% {
+        transform: translateY(0px) rotate(0deg);
+      }
+      50% {
+        transform: translateY(-10px) rotate(1.5deg);
+      }
+    }
+
+    @keyframes pulseGlow {
+      0%, 100% {
+        box-shadow: 0 6px 20px rgba(153, 82, 222, 0.25);
+      }
+      50% {
+        box-shadow: 0 10px 30px rgba(5, 205, 194, 0.35);
+      }
+    }
+
+    @keyframes bubblePop {
+      0% {
+        opacity: 0;
+        transform: scale(0.8) translateY(10px);
+      }
+      100% {
+        opacity: 1;
+        transform: scale(1) translateY(0);
+      }
+    }
+
+    @keyframes fadeIn {
+      from { opacity: 0; transform: translateY(16px); }
+      to { opacity: 1; transform: translateY(0); }
+    }
+
+    .animate-float {
+      animation: floatSlow 6s ease-in-out infinite;
+    }
+
+    .animate-pulse-glow {
+      animation: pulseGlow 4s ease-in-out infinite;
+    }
+
+    /* Contenedor principal */
+    .container {
+      max-width: 1160px;
       margin: 0 auto;
-      padding: 2rem 1.5rem;
+      padding: 0 1.5rem;
+    }
+
+    /* Navegación */
+    header {
+      position: sticky;
+      top: 0;
+      background: rgba(250, 249, 247, 0.92);
+      backdrop-filter: blur(12px);
+      -webkit-backdrop-filter: blur(12px);
+      border-bottom: 1px solid var(--border);
+      z-index: 100;
+      transition: all 0.3s ease;
+    }
+
+    .nav-inner {
       display: flex;
       justify-content: space-between;
       align-items: center;
+      padding: 1rem 0;
     }
 
-    .brand {
+    .brand-logo-link {
       display: flex;
       align-items: center;
-      gap: 0.75rem;
       text-decoration: none;
     }
 
-    .brand svg {
-      width: 40px;
-      height: 40px;
+    .brand-logo-img {
+      height: 44px;
+      width: auto;
+      display: block;
+      transition: transform 0.3s ease;
     }
 
-    .brand-title {
-      font-family: 'Comfortaa', cursive;
-      font-size: 1.75rem;
-      font-weight: 700;
-      color: var(--primary-dark);
+    .brand-logo-link:hover .brand-logo-img {
+      transform: scale(1.03);
     }
 
-    .nav-links a {
-      color: var(--ink);
+    .nav-menu {
+      display: flex;
+      align-items: center;
+      gap: 1.5rem;
+      list-style: none;
+    }
+
+    .nav-link {
       text-decoration: none;
-      font-weight: 600;
+      color: var(--ink-muted);
+      font-weight: 500;
       font-size: 0.95rem;
-      margin-left: 1.5rem;
-      transition: color 0.2s;
+      transition: color 0.2s ease;
+      position: relative;
     }
 
-    .nav-links a:hover {
+    .nav-link:hover {
       color: var(--primary);
     }
 
-    .btn-header {
-      background: var(--primary);
-      color: white !important;
-      padding: 0.6rem 1.25rem;
-      border-radius: 9999px;
-      transition: background 0.2s !important;
+    .nav-link::after {
+      content: '';
+      position: absolute;
+      bottom: -4px;
+      left: 0;
+      width: 0%;
+      height: 2px;
+      background-color: var(--amethyst);
+      transition: width 0.3s ease;
+      border-radius: 2px;
     }
 
-    .btn-header:hover {
-      background: var(--primary-dark) !important;
+    .nav-link:hover::after {
+      width: 100%;
     }
 
-    /* Hero Section */
+    /* Botones */
+    .btn {
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      gap: 0.6rem;
+      padding: 0.85rem 1.6rem;
+      border-radius: var(--radius-md);
+      font-weight: 600;
+      font-size: 0.95rem;
+      text-decoration: none;
+      cursor: pointer;
+      transition: all 0.25s cubic-bezier(0.16, 1, 0.3, 1);
+      border: 1px solid transparent;
+    }
+
+    .btn-primary {
+      background: linear-gradient(135deg, var(--primary) 0%, var(--primary-light) 100%);
+      color: #FFFFFF;
+      box-shadow: 0 4px 14px rgba(40, 7, 86, 0.2);
+    }
+
+    .btn-primary:hover {
+      transform: translateY(-2px);
+      box-shadow: 0 8px 24px rgba(40, 7, 86, 0.3);
+      filter: brightness(1.1);
+    }
+
+    .btn-secondary {
+      background-color: var(--surface);
+      color: var(--primary);
+      border-color: var(--border-strong);
+      box-shadow: var(--shadow-sm);
+    }
+
+    .btn-secondary:hover {
+      background-color: var(--surface-sunken);
+      border-color: var(--amethyst);
+      transform: translateY(-2px);
+    }
+
+    .btn-white {
+      background-color: #FFFFFF;
+      color: var(--primary);
+      box-shadow: 0 4px 16px rgba(0, 0, 0, 0.15);
+    }
+
+    .btn-white:hover {
+      background-color: var(--surface-sunken);
+      transform: translateY(-2px);
+    }
+
+    /* HERO SECTION */
     .hero {
-      max-width: 1100px;
-      margin: 3rem auto 4rem;
-      padding: 0 1.5rem;
+      padding: 4.5rem 0 3.5rem;
+      position: relative;
+    }
+
+    .hero-grid {
       display: grid;
-      grid-template-columns: 1.2fr 0.8fr;
-      gap: 3rem;
+      grid-template-columns: 1.15fr 0.85fr;
+      gap: 3.5rem;
       align-items: center;
     }
 
-    .badge {
+    .hero-tag {
       display: inline-flex;
       align-items: center;
       gap: 0.5rem;
-      background: var(--primary-light);
-      color: var(--primary);
-      font-size: 0.875rem;
-      font-weight: 600;
       padding: 0.4rem 1rem;
       border-radius: 9999px;
+      background-color: var(--ghost);
+      border: 1px solid rgba(153, 82, 222, 0.2);
+      color: var(--primary);
+      font-size: 0.825rem;
+      font-weight: 700;
       margin-bottom: 1.25rem;
-      border: 1px solid #EDE9FE;
+      letter-spacing: 0.5px;
+      text-transform: uppercase;
     }
 
-    .badge-dot {
+    .hero-tag .dot {
       width: 8px;
       height: 8px;
       border-radius: 50%;
-      background: var(--turquoise);
+      background-color: var(--accent);
     }
 
-    h1 {
-      font-family: 'Comfortaa', cursive;
-      font-size: 3rem;
+    .hero-title {
+      font-size: 2.85rem;
+      line-height: 1.2;
       font-weight: 700;
-      color: var(--primary-dark);
-      line-height: 1.15;
       margin-bottom: 1.25rem;
+      color: var(--primary);
     }
 
-    .hero-p {
-      font-size: 1.2rem;
+    .hero-title span {
+      background: linear-gradient(135deg, var(--amethyst) 0%, var(--accent) 100%);
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+    }
+
+    .hero-desc {
+      font-size: 1.125rem;
       color: var(--ink-muted);
+      line-height: 1.7;
       margin-bottom: 2rem;
       max-width: 540px;
     }
 
-    .cta-group {
+    .hero-actions {
       display: flex;
-      gap: 1rem;
       flex-wrap: wrap;
+      gap: 1rem;
+      align-items: center;
+      margin-bottom: 2rem;
     }
 
-    .btn-primary {
+    .version-badge {
       display: inline-flex;
       align-items: center;
-      gap: 0.5rem;
-      background: var(--primary);
-      color: white;
-      text-decoration: none;
-      font-weight: 600;
-      padding: 0.9rem 1.75rem;
-      border-radius: 9999px;
-      box-shadow: 0 4px 14px rgba(124, 58, 237, 0.35);
-      transition: all 0.2s;
+      gap: 0.4rem;
+      font-size: 0.8rem;
+      color: var(--ink-faint);
     }
 
-    .btn-primary:hover {
-      background: var(--primary-dark);
-      transform: translateY(-1px);
-    }
-
-    .btn-secondary {
-      display: inline-flex;
+    /* Mascota con burbuja */
+    .mascot-hero-card {
+      display: flex;
       align-items: center;
-      gap: 0.5rem;
-      background: white;
+      gap: 1rem;
+      background-color: var(--surface);
+      border: 1px solid var(--border);
+      border-radius: var(--radius-lg);
+      padding: 1rem 1.25rem;
+      box-shadow: var(--shadow-sm);
+      max-width: 480px;
+      margin-top: 1rem;
+    }
+
+    .mascot-avatar-small {
+      width: 68px;
+      height: 68px;
+      object-fit: contain;
+      flex-shrink: 0;
+    }
+
+    .mascot-speech {
+      font-size: 0.9rem;
       color: var(--ink);
-      text-decoration: none;
-      font-weight: 600;
-      padding: 0.9rem 1.75rem;
-      border-radius: 9999px;
-      border: 1px solid var(--border);
-      transition: all 0.2s;
+      font-weight: 500;
     }
 
-    .btn-secondary:hover {
-      border-color: var(--primary);
+    .mascot-speech strong {
       color: var(--primary);
+      display: block;
+      font-size: 0.95rem;
+      margin-bottom: 0.15rem;
     }
 
-    .hero-img-wrap {
-      text-align: center;
+    /* MOCKUP INTERACTIVO DEL TELÉFONO */
+    .phone-container {
+      position: relative;
+      display: flex;
+      justify-content: center;
+      align-items: center;
     }
 
-    .hero-img-wrap img {
-      max-width: 100%;
-      height: auto;
-      border-radius: 24px;
-      box-shadow: 0 10px 30px rgba(0,0,0,0.08);
+    .phone-mockup {
+      width: 320px;
+      height: 640px;
+      background-color: #0F0E14;
+      border-radius: 46px;
+      box-shadow: 0 30px 70px -15px rgba(40, 7, 86, 0.35), 0 0 0 10px #1E1D24, 0 0 0 12px #33313D;
+      position: relative;
+      overflow: hidden;
+      display: flex;
+      flex-direction: column;
+    }
+
+    /* Notch / Isla superior */
+    .phone-notch {
+      position: absolute;
+      top: 12px;
+      left: 50%;
+      transform: translateX(-50%);
+      width: 90px;
+      height: 22px;
+      background-color: #0F0E14;
+      border-radius: 20px;
+      z-index: 10;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: 6px;
+    }
+
+    .notch-camera {
+      width: 9px;
+      height: 9px;
+      background-color: #1A1A22;
+      border-radius: 50%;
+      border: 1px solid #2B2A36;
+    }
+
+    .phone-screen-img {
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+      display: block;
+      transition: opacity 0.3s ease;
+    }
+
+    /* Elementos flotantes alrededor del teléfono */
+    .floating-badge {
+      position: absolute;
+      background-color: var(--surface);
       border: 1px solid var(--border);
+      padding: 0.75rem 1.25rem;
+      border-radius: var(--radius-md);
+      box-shadow: var(--shadow-lg);
+      display: flex;
+      align-items: center;
+      gap: 0.75rem;
+      z-index: 20;
     }
 
-    /* Features Grid */
-    .features-section {
-      background: white;
-      padding: 5rem 1.5rem;
+    .badge-left {
+      bottom: 60px;
+      left: -40px;
+    }
+
+    .badge-right {
+      top: 90px;
+      right: -30px;
+    }
+
+    .badge-icon {
+      font-size: 1.5rem;
+      line-height: 1;
+    }
+
+    .badge-text-title {
+      font-size: 0.85rem;
+      font-weight: 700;
+      color: var(--ink);
+    }
+
+    .badge-text-sub {
+      font-size: 0.75rem;
+      color: var(--ink-muted);
+    }
+
+    /* SHOWCASE TABS SECTION */
+    .showcase-section {
+      padding: 5rem 0;
+      background-color: var(--surface);
       border-top: 1px solid var(--border);
       border-bottom: 1px solid var(--border);
     }
 
-    .section-container {
-      max-width: 1100px;
-      margin: 0 auto;
-    }
-
     .section-header {
       text-align: center;
-      margin-bottom: 3.5rem;
+      max-width: 680px;
+      margin: 0 auto 3.5rem;
     }
 
-    .section-header h2 {
-      font-family: 'Comfortaa', cursive;
+    .section-tag {
+      display: inline-block;
+      font-size: 0.8rem;
+      font-weight: 700;
+      text-transform: uppercase;
+      letter-spacing: 1px;
+      color: var(--amethyst);
+      margin-bottom: 0.5rem;
+    }
+
+    .section-title {
       font-size: 2.25rem;
-      color: var(--primary-dark);
-      margin-bottom: 0.75rem;
-    }
-
-    .section-header p {
-      color: var(--ink-muted);
-      font-size: 1.1rem;
-    }
-
-    .grid-3 {
-      display: grid;
-      grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
-      gap: 2rem;
-    }
-
-    .feature-card {
-      background: var(--bg);
-      padding: 2.25rem 2rem;
-      border-radius: 20px;
-      border: 1px solid var(--border);
-      transition: transform 0.2s, box-shadow 0.2s;
-    }
-
-    .feature-card:hover {
-      transform: translateY(-4px);
-      box-shadow: 0 10px 25px rgba(0,0,0,0.04);
-    }
-
-    .feature-icon {
-      width: 48px;
-      height: 48px;
-      border-radius: 14px;
-      background: var(--primary-light);
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      font-size: 1.5rem;
-      margin-bottom: 1.25rem;
-    }
-
-    .feature-card h3 {
-      font-family: 'Comfortaa', cursive;
-      font-size: 1.25rem;
-      color: var(--primary-dark);
-      margin-bottom: 0.75rem;
-    }
-
-    .feature-card p {
-      color: #4B5563;
-      font-size: 0.95rem;
-    }
-
-    /* Privacy Banner */
-    .privacy-banner {
-      background: linear-gradient(135deg, #280756 0%, #4C1D95 100%);
-      color: white;
-      padding: 4rem 1.5rem;
-      margin: 4rem auto;
-      max-width: 1100px;
-      border-radius: 28px;
-      box-shadow: 0 12px 30px rgba(40, 7, 86, 0.2);
-    }
-
-    .privacy-content {
-      max-width: 720px;
-      margin: 0 auto;
-      text-align: center;
-    }
-
-    .privacy-content h2 {
-      font-family: 'Comfortaa', cursive;
-      font-size: 2.2rem;
+      font-weight: 700;
       margin-bottom: 1rem;
     }
 
-    .privacy-content p {
-      font-size: 1.1rem;
-      opacity: 0.9;
-      margin-bottom: 2rem;
-      line-height: 1.7;
-    }
-
-    .privacy-content .btn-white {
-      display: inline-block;
-      background: white;
-      color: var(--primary-dark);
-      padding: 0.9rem 2rem;
-      border-radius: 9999px;
-      font-weight: 700;
-      text-decoration: none;
-      transition: background 0.2s;
-    }
-
-    .privacy-content .btn-white:hover {
-      background: #F3F4F6;
-    }
-
-    /* Footer */
-    footer {
-      max-width: 1100px;
-      margin: 0 auto;
-      padding: 3rem 1.5rem 4rem;
-      display: flex;
-      justify-content: space-between;
-      align-items: center;
-      border-top: 1px solid var(--border);
+    .section-subtitle {
+      font-size: 1.05rem;
       color: var(--ink-muted);
-      font-size: 0.9rem;
+    }
+
+    /* Selector de pestañas interactivas */
+    .tabs-selector {
+      display: flex;
+      justify-content: center;
+      gap: 0.75rem;
+      flex-wrap: wrap;
+      margin-bottom: 3rem;
+    }
+
+    .tab-button {
+      padding: 0.75rem 1.4rem;
+      border-radius: var(--radius-md);
+      border: 1px solid var(--border);
+      background-color: var(--paper);
+      color: var(--ink-muted);
+      font-weight: 600;
+      font-size: 0.95rem;
+      cursor: pointer;
+      display: flex;
+      align-items: center;
+      gap: 0.5rem;
+      transition: all 0.2s ease;
+    }
+
+    .tab-button:hover {
+      background-color: var(--surface-sunken);
+      color: var(--primary);
+    }
+
+    .tab-button.active {
+      background-color: var(--primary);
+      color: #FFFFFF;
+      border-color: var(--primary);
+      box-shadow: 0 4px 12px rgba(40, 7, 86, 0.2);
+    }
+
+    .showcase-display {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 4rem;
+      align-items: center;
+    }
+
+    .showcase-card {
+      background-color: var(--paper);
+      border: 1px solid var(--border);
+      border-radius: var(--radius-xl);
+      padding: 2.5rem;
+      box-shadow: var(--shadow-sm);
+    }
+
+    .showcase-card h3 {
+      font-size: 1.75rem;
+      margin-bottom: 1rem;
+      display: flex;
+      align-items: center;
+      gap: 0.75rem;
+    }
+
+    .showcase-card p {
+      color: var(--ink-muted);
+      font-size: 1rem;
+      line-height: 1.8;
+      margin-bottom: 1.5rem;
+    }
+
+    .feature-points {
+      list-style: none;
+      display: flex;
+      flex-direction: column;
+      gap: 1rem;
+    }
+
+    .feature-point {
+      display: flex;
+      align-items: flex-start;
+      gap: 0.75rem;
+      font-size: 0.95rem;
+      color: var(--ink);
+    }
+
+    .point-icon {
+      width: 24px;
+      height: 24px;
+      border-radius: 50%;
+      background-color: var(--done-soft);
+      color: var(--done);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 0.85rem;
+      font-weight: 700;
+      flex-shrink: 0;
+      margin-top: 2px;
+    }
+
+    .showcase-preview-frame {
+      display: flex;
+      justify-content: center;
+      align-items: center;
+    }
+
+    .preview-phone {
+      width: 290px;
+      height: 590px;
+      background-color: #0F0E14;
+      border-radius: 40px;
+      box-shadow: 0 25px 60px -10px rgba(40, 7, 86, 0.25), 0 0 0 8px #1E1D24;
+      overflow: hidden;
+      position: relative;
+    }
+
+    .preview-phone img {
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+      display: block;
+    }
+
+    /* FILOSOFÍA TINTA Y PAPEL */
+    .philosophy-section {
+      padding: 5.5rem 0;
+      position: relative;
+    }
+
+    .cards-grid {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 2rem;
+      margin-top: 3rem;
+    }
+
+    .philosophy-card {
+      background-color: var(--surface);
+      border: 1px solid var(--border);
+      border-radius: var(--radius-lg);
+      padding: 2.25rem 1.75rem;
+      box-shadow: var(--shadow-sm);
+      transition: all 0.3s ease;
+      display: flex;
+      flex-direction: column;
+    }
+
+    .philosophy-card:hover {
+      transform: translateY(-6px);
+      box-shadow: var(--shadow-md);
+      border-color: var(--amethyst);
+    }
+
+    .card-mascot-img {
+      width: 80px;
+      height: 80px;
+      object-fit: contain;
+      margin-bottom: 1.5rem;
+    }
+
+    .philosophy-card h3 {
+      font-size: 1.35rem;
+      margin-bottom: 0.85rem;
+    }
+
+    .philosophy-card p {
+      color: var(--ink-muted);
+      font-size: 0.95rem;
+      line-height: 1.7;
+      flex-grow: 1;
+    }
+
+    /* Muestra de Estados de la App */
+    .state-chips-demo {
+      display: flex;
+      gap: 0.6rem;
+      flex-wrap: wrap;
+      margin-top: 1.25rem;
+      padding-top: 1.25rem;
+      border-top: 1px solid var(--border);
+    }
+
+    .state-chip {
+      padding: 0.3rem 0.75rem;
+      border-radius: 9999px;
+      font-size: 0.775rem;
+      font-weight: 700;
+      display: inline-flex;
+      align-items: center;
+      gap: 0.35rem;
+    }
+
+    .chip-done {
+      background-color: var(--done-soft);
+      color: var(--done);
+    }
+
+    .chip-due {
+      background-color: var(--due-soft);
+      color: var(--due);
+    }
+
+    .chip-missed {
+      background-color: var(--missed-soft);
+      color: var(--missed);
+    }
+
+    /* GOOGLE DRIVE CALLOUT BANNER */
+    .drive-banner {
+      background: linear-gradient(135deg, var(--primary) 0%, #160233 100%);
+      color: #FFFFFF;
+      border-radius: var(--radius-xl);
+      padding: 3.5rem 3rem;
+      margin: 2rem 0 5rem;
+      position: relative;
+      overflow: hidden;
+      box-shadow: var(--shadow-lg);
+    }
+
+    .drive-banner::before {
+      content: '';
+      position: absolute;
+      top: -50%;
+      right: -20%;
+      width: 400px;
+      height: 400px;
+      background: radial-gradient(circle, rgba(153, 82, 222, 0.3) 0%, transparent 70%);
+      border-radius: 50%;
+      pointer-events: none;
+    }
+
+    .drive-content {
+      position: relative;
+      z-index: 10;
+      max-width: 680px;
+    }
+
+    .drive-tag {
+      display: inline-flex;
+      align-items: center;
+      gap: 0.5rem;
+      background: rgba(255, 255, 255, 0.12);
+      padding: 0.35rem 0.9rem;
+      border-radius: 9999px;
+      font-size: 0.8rem;
+      font-weight: 700;
+      margin-bottom: 1rem;
+      color: var(--accent);
+      text-transform: uppercase;
+      letter-spacing: 0.5px;
+    }
+
+    .drive-content h2 {
+      color: #FFFFFF;
+      font-size: 2.25rem;
+      margin-bottom: 1.25rem;
+    }
+
+    .drive-content p {
+      color: #E2DFDE;
+      font-size: 1.05rem;
+      line-height: 1.8;
+      margin-bottom: 2rem;
+    }
+
+    .drive-buttons {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 1rem;
+    }
+
+    /* FOOTER */
+    footer {
+      background-color: var(--surface-sunken);
+      border-top: 1px solid var(--border);
+      padding: 3.5rem 0 2rem;
+    }
+
+    .footer-grid {
+      display: grid;
+      grid-template-columns: 2fr 1fr 1fr;
+      gap: 3rem;
+      margin-bottom: 3rem;
+    }
+
+    .footer-brand p {
+      color: var(--ink-muted);
+      font-size: 0.925rem;
+      margin-top: 0.85rem;
+      max-width: 380px;
+    }
+
+    .footer-col h4 {
+      font-size: 0.95rem;
+      font-weight: 700;
+      color: var(--primary);
+      margin-bottom: 1.25rem;
+      text-transform: uppercase;
+      letter-spacing: 0.5px;
+    }
+
+    .footer-links {
+      list-style: none;
+      display: flex;
+      flex-direction: column;
+      gap: 0.75rem;
     }
 
     .footer-links a {
       color: var(--ink-muted);
       text-decoration: none;
-      margin-left: 1.5rem;
-      transition: color 0.2s;
+      font-size: 0.925rem;
+      transition: color 0.2s ease;
     }
 
     .footer-links a:hover {
       color: var(--primary);
     }
 
-    @media (max-width: 768px) {
-      .hero {
+    .footer-bottom {
+      border-top: 1px solid var(--border);
+      padding-top: 2rem;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      color: var(--ink-faint);
+      font-size: 0.85rem;
+    }
+
+    /* Responsive */
+    @media (max-width: 992px) {
+      .hero-grid {
         grid-template-columns: 1fr;
         text-align: center;
-        gap: 2.5rem;
+        gap: 3rem;
       }
-      .hero-p {
+      .hero-desc {
         margin: 0 auto 2rem;
       }
-      .cta-group {
+      .hero-actions {
         justify-content: center;
       }
-      h1 {
-        font-size: 2.25rem;
+      .mascot-hero-card {
+        margin: 1.5rem auto 0;
+        text-align: left;
       }
-      header, footer {
-        flex-direction: column;
-        gap: 1.25rem;
-        text-align: center;
+      .showcase-display {
+        grid-template-columns: 1fr;
+        gap: 2.5rem;
       }
-      .nav-links a, .footer-links a {
-        margin: 0 0.75rem;
+      .cards-grid {
+        grid-template-columns: 1fr;
+      }
+      .footer-grid {
+        grid-template-columns: 1fr;
+        gap: 2rem;
+      }
+      .badge-left {
+        left: 0;
+      }
+      .badge-right {
+        right: 0;
+      }
+    }
+
+    @media (max-width: 600px) {
+      .hero-title {
+        font-size: 2.2rem;
+      }
+      .phone-mockup {
+        width: 270px;
+        height: 540px;
+      }
+      .floating-badge {
+        display: none;
+      }
+      .nav-menu {
+        display: none;
+      }
+      .drive-banner {
+        padding: 2.5rem 1.5rem;
+      }
+    }
+
+    @media (prefers-reduced-motion: reduce) {
+      .animate-float, .animate-pulse-glow {
+        animation: none !important;
       }
     }
   </style>
 </head>
 <body>
 
+  <!-- NAVEGACIÓN SUPERIOR -->
   <header>
-    <a href="index.html" class="brand">
-      <svg viewBox="0 0 40 40" fill="none" xmlns="http://www.w3.org/2000/svg">
-        <rect width="40" height="40" rx="12" fill="#7C3AED"/>
-        <path d="M12 20C12 15.5817 15.5817 12 20 12C24.4183 12 28 15.5817 28 20C28 24.4183 24.4183 28 20 28" stroke="white" stroke-width="3" stroke-linecap="round"/>
-        <circle cx="20" cy="20" r="3" fill="#6EE7B7"/>
-      </svg>
-      <span class="brand-title">Itera</span>
-    </a>
-    <nav class="nav-links">
-      <a href="#caracteristicas">Características</a>
-      <a href="privacidad.html">Privacidad</a>
-      <a href="terminos.html">Términos</a>
-      <a href="https://github.com/santiloc-hub/remider_app/releases/latest" class="btn-header">Descargar APK</a>
-    </nav>
+    <div class="container nav-inner">
+      <a href="index.html" class="brand-logo-link" aria-label="Itera Inicio">
+        <img src="assets/itera_logo_horizontal.svg" alt="Itera Logo" class="brand-logo-img">
+      </a>
+
+      <nav>
+        <ul class="nav-menu">
+          <li><a href="#caracteristicas" class="nav-link">Características</a></li>
+          <li><a href="#filosofia" class="nav-link">Filosofía</a></li>
+          <li><a href="#drive" class="nav-link">Respaldo Seguro</a></li>
+          <li><a href="privacidad.html" class="nav-link">Privacidad</a></li>
+          <li><a href="terminos.html" class="nav-link">Términos</a></li>
+          <li>
+            <a href="https://github.com/santiloc-hub/remider_app/releases/tag/v0.10.9-qa" class="btn btn-primary" target="_blank" rel="noopener">
+              Descargar APK
+            </a>
+          </li>
+        </ul>
+      </nav>
+    </div>
   </header>
 
   <main>
+    <!-- HERO SECTION -->
     <section class="hero">
-      <div>
-        <div class="badge">
-          <span class="badge-dot"></span>
-          100% Local-First &bull; Cero Rastreadores
+      <div class="container hero-grid">
+        <div class="hero-text-content">
+          <div class="hero-tag">
+            <span class="dot"></span>
+            <span>Versión 0.10.9 Oficial · Android</span>
+          </div>
+
+          <h1 class="hero-title">
+            Hábitos a tu propio ritmo. <span>Sin culpa.</span>
+          </h1>
+
+          <p class="hero-desc">
+            Itera reinventa la gestión de tareas con cadencias flexibles, acompañamiento empático de nuestra mascota perezoso y privacidad absoluta local-first con respaldo seguro en tu Google Drive.
+          </p>
+
+          <div class="hero-actions">
+            <a href="https://github.com/santiloc-hub/remider_app/releases/tag/v0.10.9-qa" class="btn btn-primary animate-pulse-glow" target="_blank" rel="noopener">
+              <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                <path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"></path>
+                <polyline points="7 10 12 15 17 10"></polyline>
+                <line x1="12" y1="15" x2="12" y2="3"></line>
+              </svg>
+              Descargar itera-v0.10.9-qa.apk
+            </a>
+
+            <a href="privacidad.html" class="btn btn-secondary">
+              Leer Política de Privacidad
+            </a>
+          </div>
+
+          <div class="version-badge">
+            <span>✓ Firma SHA-1 Oficial verificada</span>
+            <span>·</span>
+            <span>✓ Compatible con Android 8.0 a 15+</span>
+          </div>
+
+          <!-- Tarjeta con Mascota Perezoso -->
+          <div class="mascot-hero-card">
+            <img src="assets/avatar_saludo.webp" alt="Mascota Perezoso Itera Saludando" class="mascot-avatar-small animate-float">
+            <div class="mascot-speech">
+              <strong>¡Hola! Soy la mascota de Itera</strong>
+              Te acompaño a construir constancia serena. Si un día descansas, tu progreso sigue a salvo. 🌱
+            </div>
+          </div>
         </div>
-        <h1>Construye tu ritmo, sin culpa ni ansiedad.</h1>
-        <p class="hero-p">
-          Itera es la aplicación de hábitos y tareas con temporalidad propia. Cada hábito define cuándo te avisa y cuándo se cierra, respetando tus descansos sin sobrecargas.
-        </p>
-        <div class="cta-group">
-          <a href="https://github.com/santiloc-hub/remider_app/releases/latest" class="btn-primary">
-            Descargar última versión (APK)
-          </a>
-          <a href="privacidad.html" class="btn-secondary">
-            Ver Política de Privacidad
-          </a>
+
+        <!-- MOCKUP DEL TELÉFONO CON CAPTURA REAL -->
+        <div class="phone-container">
+          <!-- Insignia flotante izquierda -->
+          <div class="floating-badge badge-left animate-float" style="animation-delay: -2s;">
+            <div class="badge-icon">🌿</div>
+            <div>
+              <div class="badge-text-title">Sin Ansiedad</div>
+              <div class="badge-text-sub">Rachas honestas por cadencia</div>
+            </div>
+          </div>
+
+          <!-- Insignia flotante derecha -->
+          <div class="floating-badge badge-right animate-float" style="animation-delay: -4s;">
+            <div class="badge-icon">🔒</div>
+            <div>
+              <div class="badge-text-title">Drive AppData</div>
+              <div class="badge-text-sub">Solo accesible por ti</div>
+            </div>
+          </div>
+
+          <div class="phone-mockup">
+            <div class="phone-notch">
+              <div class="notch-camera"></div>
+            </div>
+            <img id="hero-phone-img" src="assets/screenshot_1_hoy.png" alt="Pantalla Hoy de Itera" class="phone-screen-img">
+          </div>
         </div>
-      </div>
-      <div class="hero-img-wrap">
-        <img src="design/itera_feature_graphic_1024x500.png" alt="Itera - Hábitos con temporalidad propia">
       </div>
     </section>
 
-    <section class="features-section" id="caracteristicas">
-      <div class="section-container">
+    <!-- SHOWCASE INTERACTIVO DE PANTALLAS -->
+    <section id="caracteristicas" class="showcase-section">
+      <div class="container">
         <div class="section-header">
-          <h2>Diseñado para la vida real</h2>
-          <p>La constancia que se adapta a ti, no tú a ella.</p>
+          <span class="section-tag">Capturas Reales de la Aplicación</span>
+          <h2 class="section-title">Diseñada para darte calma, no ruido</h2>
+          <p class="section-subtitle">
+            Explora las pantallas principales de Itera capturadas directamente desde la versión de producción en Android.
+          </p>
         </div>
 
-        <div class="grid-3">
-          <div class="feature-card">
-            <div class="feature-icon">⏳</div>
-            <h3>Temporalidad Propia</h3>
-            <p>Cadencias diarias, semanales, mensuales o anuales con días de corte independientes. Una tarea semanal de 3 días no te agobia los martes.</p>
+        <!-- Botones de Pestañas -->
+        <div class="tabs-selector">
+          <button class="tab-button active" onclick="switchScreen('hoy', this)">
+            <span>🌱</span> Pantalla Hoy
+          </button>
+          <button class="tab-button" onclick="switchScreen('nueva_tarea', this)">
+            <span>⚙️</span> Ciclos Flexibles
+          </button>
+          <button class="tab-button" onclick="switchScreen('constancia', this)">
+            <span>📈</span> Constancia & Heatmap
+          </button>
+          <button class="tab-button" onclick="switchScreen('historial', this)">
+            <span>📜</span> Historial Detallado
+          </button>
+          <button class="tab-button" onclick="switchScreen('privacidad', this)">
+            <span>☁️</span> Google Drive Privado
+          </button>
+        </div>
+
+        <!-- Contenido Dinámico de la Pestaña -->
+        <div class="showcase-display">
+          <div class="showcase-card" id="showcase-text-card">
+            <h3 id="showcase-title"><span>🌱</span> Tu día en un vistazo</h3>
+            <p id="showcase-desc">
+              La pantalla <strong>Hoy</strong> agrupa tus hábitos y pendientes organizados por áreas de vida (Salud, Estudio, Proyectos). Solo ves lo que realmente vence en el ciclo actual, sin agobios por tareas futuras.
+            </p>
+            <ul class="feature-points" id="showcase-points">
+              <li class="feature-point">
+                <span class="point-icon">✓</span>
+                <span>Marcas intuitivas: un toque para completar o incrementar subtareas.</span>
+              </li>
+              <li class="feature-point">
+                <span class="point-icon">✓</span>
+                <span>Indicadores de cadencia: "3 veces por semana", "Lunes y Jueves", etc.</span>
+              </li>
+              <li class="feature-point">
+                <span class="point-icon">✓</span>
+                <span>Colores semánticos que indican cuándo un periodo está por vencer.</span>
+              </li>
+            </ul>
           </div>
 
-          <div class="feature-card">
-            <div class="feature-icon">🔒</div>
-            <h3>Privacidad Radical</h3>
-            <p>Sin cuentas obligatorias, sin servidores de terceros, sin telemetría ni rastreadores. Tus datos permanecen 100% dentro de tu teléfono.</p>
-          </div>
-
-          <div class="feature-card">
-            <div class="feature-icon">☁️</div>
-            <h3>Respaldo Privado en Google Drive</h3>
-            <p>Guarda copias de seguridad comprimidas en tu propia carpeta privada de Drive (AppDataFolder). Solo tú tienes la llave de tu información.</p>
-          </div>
-
-          <div class="feature-card">
-            <div class="feature-icon">📋</div>
-            <h3>Subtareas y Recordatorios</h3>
-            <p>Desglosa objetivos complejos en pasos ordenados, cada uno con recordatorios específicos y programación silenciosa en segundo plano.</p>
-          </div>
-
-          <div class="feature-card">
-            <div class="feature-icon">📊</div>
-            <h3>Métricas Honestas</h3>
-            <p>Rachas separadas por cadencia que no distorsionan tu constancia. Un descanso programado no arruina tus hábitos alcanzados.</p>
-          </div>
-
-          <div class="feature-card">
-            <div class="feature-icon">🦥</div>
-            <h3>Acompañamiento Amigable</h3>
-            <p>Nuestra mascota perezoso te guía en cada paso del camino, celebrando tus logros diarios con confeti y ánimo positivo.</p>
+          <div class="showcase-preview-frame">
+            <div class="preview-phone">
+              <img id="showcase-img" src="assets/screenshot_1_hoy.png" alt="Captura Interactiva de Itera">
+            </div>
           </div>
         </div>
       </div>
     </section>
 
-    <section class="privacy-banner">
-      <div class="privacy-content">
-        <h2>Tus hábitos son solo tuyos</h2>
-        <p>
-          Creemos que tus rutinas y notas personales no le pertenecen a ninguna corporación publicitaria. Conoce en detalle nuestro estricto compromiso con la privacidad y el uso exclusivo del alcance de Google Drive AppData.
-        </p>
-        <a href="privacidad.html" class="btn-white">Leer Política de Privacidad Oficial</a>
+    <!-- FILOSOFÍA "TINTA Y PAPEL" & MASCOTA -->
+    <section id="filosofia" class="philosophy-section">
+      <div class="container">
+        <div class="section-header">
+          <span class="section-tag">Nuestra Filosofía</span>
+          <h2 class="section-title">El color significa estado, no distracción</h2>
+          <p class="section-subtitle">
+            Inspirada en el minimalismo editorial de "Tinta y Papel", Itera elimina elementos invasivos para centrarse en lo importante: tus hábitos.
+          </p>
+        </div>
+
+        <div class="cards-grid">
+          <!-- Card 1 -->
+          <div class="philosophy-card">
+            <img src="assets/avatar_exito.webp" alt="Mascota celebrando éxito" class="card-mascot-img animate-float">
+            <h3>Constancia Honesta</h3>
+            <p>
+              A diferencia de otras apps que castigan tu racha a cero si enfermas o descansas un fin de semana, Itera mide tu constancia por periodos reales. Un respiro programado no destruye tu esfuerzo acumulado.
+            </p>
+            <div class="state-chips-demo">
+              <span class="state-chip chip-done">✓ Cumplido</span>
+              <span class="state-chip chip-due">⏳ Cierra pronto</span>
+              <span class="state-chip chip-missed">✕ No completado</span>
+            </div>
+          </div>
+
+          <!-- Card 2 -->
+          <div class="philosophy-card">
+            <img src="assets/avatar_durmiendo.webp" alt="Mascota durmiendo" class="card-mascot-img animate-float" style="animation-delay: -3s;">
+            <h3>Local-First y Cero Anuncios</h3>
+            <p>
+              Tus rutinas, notas y reflexiones viven en una base de datos local SQLite (Room) dentro de tu dispositivo. No tenemos servidores recolectando tus datos personales, no mostramos publicidad y no vendemos analíticas.
+            </p>
+            <div class="state-chips-demo">
+              <span class="state-chip chip-done">🛡️ 100% Privado</span>
+              <span class="state-chip chip-done">🚫 Cero SDKs de tracking</span>
+            </div>
+          </div>
+
+          <!-- Card 3 -->
+          <div class="philosophy-card">
+            <img src="assets/avatar_despertando.webp" alt="Mascota despertando" class="card-mascot-img animate-float" style="animation-delay: -1.5s;">
+            <h3>Subtareas y Adjuntos</h3>
+            <p>
+              Desglosa proyectos grandes en pasos sencillos. Cada tarea puede contener subtareas ordenadas, archivos o imágenes adjuntas y recordatorios precisos programados en segundo plano con Android AlarmManager.
+            </p>
+            <div class="state-chips-demo">
+              <span class="state-chip chip-done">📋 Subtareas Room v6</span>
+              <span class="state-chip chip-done">🔔 Avisos silenciosos</span>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- BANNER GOOGLE DRIVE APPDATA -->
+    <section id="drive" class="container">
+      <div class="drive-banner">
+        <div class="drive-content">
+          <div class="drive-tag">
+            <span>🔒 Alcance Seguro drive.appdata</span>
+          </div>
+          <h2>Tus copias de seguridad en tu propio Google Drive</h2>
+          <p>
+            Cuando decides conectar tu cuenta de Google, Itera utiliza exclusivamente la carpeta oculta de datos de aplicación (<strong>AppDataFolder</strong>). Itera no puede ver tus fotos, documentos personales ni carpetas. Cumple con los requisitos de <strong>Uso Limitado (Limited Use Requirements)</strong> de las Políticas de API de Google.
+          </p>
+          <div class="drive-buttons">
+            <a href="privacidad.html" class="btn btn-white">
+              Consultar Política de Privacidad Oficial
+            </a>
+            <a href="terminos.html" class="btn btn-secondary" style="color: #FFFFFF; border-color: rgba(255,255,255,0.4); background: transparent;">
+              Términos del Servicio
+            </a>
+          </div>
+        </div>
       </div>
     </section>
   </main>
 
+  <!-- PIE DE PÁGINA -->
   <footer>
-    <div>
-      <p>&copy; 2026 Itera. Creado por Santiago Abel Montaña Vásquez.</p>
-    </div>
-    <div class="footer-links">
-      <a href="index.html">Inicio</a>
-      <a href="privacidad.html">Privacidad</a>
-      <a href="terminos.html">Términos</a>
-      <a href="https://github.com/santiloc-hub/remider_app" target="_blank" rel="noopener">GitHub</a>
+    <div class="container">
+      <div class="footer-grid">
+        <div class="footer-brand">
+          <img src="assets/itera_logo_horizontal.svg" alt="Itera Logo" style="height: 38px; width: auto;">
+          <p>
+            Aplicación de gestión de tareas y hábitos con cadencias flexibles, acompañamiento de mascota y privacidad garantizada.
+          </p>
+        </div>
+
+        <div class="footer-col">
+          <h4>Legal & Privacidad</h4>
+          <ul class="footer-links">
+            <li><a href="privacidad.html">Política de Privacidad</a></li>
+            <li><a href="terminos.html">Condiciones del Servicio</a></li>
+            <li><a href="https://developers.google.com/terms/api-services-user-data-policy" target="_blank" rel="noopener">Uso Limitado de Google</a></li>
+          </ul>
+        </div>
+
+        <div class="footer-col">
+          <h4>Desarrollador</h4>
+          <ul class="footer-links">
+            <li><a href="mailto:santiloc23456@gmail.com">santiloc23456@gmail.com</a></li>
+            <li><a href="https://github.com/santiloc-hub" target="_blank" rel="noopener">Santiago Abel Montaña V.</a></li>
+            <li><a href="https://github.com/santiloc-hub/itera-web" target="_blank" rel="noopener">Repositorio Web</a></li>
+          </ul>
+        </div>
+      </div>
+
+      <div class="footer-bottom">
+        <p>&copy; 2026 Itera. Todos los derechos reservados. Desarrollado con enfoque local-first.</p>
+        <p>SHA-1 Release: <code>E8:B5:05:D1:06:B8...F6:44</code></p>
+      </div>
     </div>
   </footer>
 
+  <!-- SCRIPT PARA EL CAMBIO INTERACTIVO DE PANTALLAS -->
+  <script>
+    const screens = {
+      hoy: {
+        title: "<span>🌱</span> Tu día en un vistazo",
+        desc: "La pantalla <strong>Hoy</strong> agrupa tus hábitos y pendientes organizados por áreas de vida (Salud, Estudio, Proyectos). Solo ves lo que realmente vence en el ciclo actual, sin agobios por tareas futuras.",
+        img: "assets/screenshot_1_hoy.png",
+        points: [
+          "Marcas intuitivas: un toque para completar o incrementar subtareas.",
+          "Indicadores de cadencia: '3 veces por semana', 'Lunes y Jueves', etc.",
+          "Colores semánticos que indican cuándo un periodo está por vencer."
+        ]
+      },
+      nueva_tarea: {
+        title: "<span>⚙️</span> Ciclos flexibles sin culpa",
+        desc: "Crea tareas con temporalidad propia. Elige si es un hábito recurrente con días específicos de la semana, una cadencia periódica o una tarea puntual con objetivos medibles.",
+        img: "assets/screenshot_2_nueva_tarea.png",
+        points: [
+          "Selección de días de la semana y áreas personalizadas.",
+          "Objetivos y subtareas integradas con progreso dinámico.",
+          "Programación de avisos precisos para no olvidar tus metas."
+        ]
+      },
+      constancia: {
+        title: "<span>📈</span> Métricas y Heatmap honesto",
+        desc: "Visualiza tu constancia histórica con una matriz de calor (heatmap). Los descansos o pausas conscientes se representan honestamente sin alterar tu porcentaje de disciplina.",
+        img: "assets/screenshot_3_constancia.png",
+        points: [
+          "Gráfica de constancia con códigos de color de alto contraste.",
+          "Rachas separadas que respetan tus días de descanso planificados.",
+          "Filtros por áreas para evaluar tu balance en cada dimensión."
+        ]
+      },
+      historial: {
+        title: "<span>📜</span> Registro y auditoría personal",
+        desc: "Un historial completo con cada periodo cerrado, notas de cumplimiento y marcas registradas. Nada se pierde y puedes consultar cualquier fecha anterior.",
+        img: "assets/screenshot_4_historial.png",
+        points: [
+          "Vista cronológica detallada de todas tus actividades pasadas.",
+          "Búsqueda rápida por nombre de tarea o estado de cumplimiento.",
+          "Exportación íntegra de tus datos en cualquier momento."
+        ]
+      },
+      privacidad: {
+        title: "<span>☁️</span> Respaldo seguro en Google Drive",
+        desc: "Guarda copias de seguridad automáticas o manuales en formato ZIP comprimido en la carpeta privada AppData de tu Google Drive. Restaura todo con un solo toque.",
+        img: "assets/screenshot_5_privacidad.png",
+        points: [
+          "Alcance sensible 'drive.appdata': Itera no puede leer ningún otro archivo.",
+          "Copia completa: tareas, áreas, periodos, marcas, subtareas y fotos adjuntas.",
+          "Fórmula criptográfica directa entre tu dispositivo y los servidores de Google."
+        ]
+      }
+    };
+
+    function switchScreen(screenKey, btnElement) {
+      const data = screens[screenKey];
+      if (!data) return;
+
+      // Actualizar botones
+      document.querySelectorAll('.tab-button').forEach(btn => btn.classList.remove('active'));
+      btnElement.classList.add('active');
+
+      // Animación suave de cambio de imagen
+      const img = document.getElementById('showcase-img');
+      img.style.opacity = '0';
+      
+      setTimeout(() => {
+        img.src = data.img;
+        img.style.opacity = '1';
+        
+        document.getElementById('showcase-title').innerHTML = data.title;
+        document.getElementById('showcase-desc').innerHTML = data.desc;
+        
+        const pointsUl = document.getElementById('showcase-points');
+        pointsUl.innerHTML = data.points.map(p => `
+          <li class="feature-point">
+            <span class="point-icon">✓</span>
+            <span>${p}</span>
+          </li>
+        `).join('');
+      }, 180);
+    }
+  </script>
 </body>
 </html>

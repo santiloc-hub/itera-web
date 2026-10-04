@@ -1,0 +1,85 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 400 120" width="400" height="120">
+  <defs>
+    <style>
+      @import url('https://fonts.googleapis.com/css2?family=Comfortaa:wght@700&amp;display=swap');
+      .brand-title {
+        font-family: 'Comfortaa', cursive, system-ui, sans-serif;
+        font-weight: 700;
+        font-size: 58px;
+        fill: #280756;
+      }
+      .brand-subtitle {
+        font-family: system-ui, -apple-system, sans-serif;
+        font-weight: 600;
+        font-size: 11px;
+        letter-spacing: 2.5px;
+        fill: #6B6862;
+        text-transform: uppercase;
+      }
+    </style>
+  </defs>
+
+  <!-- Isotipo Oficial Escalado (100x100 px centrado en X=15, Y=10) -->
+  <g transform="translate(15, 10) scale(0.66667)">
+    <!-- 1. Cabeza: Silueta en Amatista (#9952DE) -->
+    <path
+      d="M 74 40 C 96.5 40, 111 58.5, 111 71 L 111 77 C 111 84.5, 108.5 90.5, 105 94 C 100.5 98.5, 91 105, 74 105 C 57 105, 47.5 98.5, 43 94 C 39.5 90.5, 37 84.5, 37 77 L 37 71 C 37 58.5, 51.5 40, 74 40 Z"
+      fill="#9952DE" />
+
+    <!-- 2. Máscara facial: Ghost (#F0ECF1) -->
+    <path
+      d="M 74 60.5 C 71 58, 67 56.5, 61 56.5 C 53 56.5, 42.5 64, 42.5 76 C 42.5 89, 58 99.5, 74 99.5 C 90 99.5, 105.5 89, 105.5 76 C 105.5 64, 95 56.5, 87 56.5 C 81 56.5, 77 58, 74 60.5 Z"
+      fill="#F0ECF1" />
+
+    <!-- 3. Parche ocular izquierdo: Midnight Indigo (#280756) -->
+    <path
+      d="M 46 85.5 C 43 82, 42.5 75, 45 71 C 49 66.5, 61.5 66.5, 66.5 70.5 C 67.5 72.5, 65 77.5, 63 78.5 C 54 79.5, 47 83.5, 46 85.5 Z"
+      fill="#280756" />
+
+    <!-- 4. Parche ocular derecho: Midnight Indigo (#280756) -->
+    <path
+      d="M 102 85.5 C 105 82, 105.5 75, 103 71 C 99 66.5, 86.5 66.5, 81.5 70.5 C 80.5 72.5, 83 77.5, 85 78.5 C 94 79.5, 101 83.5, 102 85.5 Z"
+      fill="#280756" />
+
+    <!-- 5. Ojos adormilados: Wisteria (#D6ABEB) -->
+    <path
+      d="M 55.5 73.2 L 62.5 73.2 C 62.5 76.5, 55.5 76.5, 55.5 73.2 Z"
+      fill="#D6ABEB" />
+    <path
+      d="M 86.5 73.2 L 93.5 73.2 C 93.5 76.5, 86.5 76.5, 86.5 73.2 Z"
+      fill="#D6ABEB" />
+
+    <!-- 6. Nariz: Midnight Indigo (#280756) -->
+    <path
+      d="M 74 75.5 C 77 75.5, 78.5 76.5, 78.5 77.5 C 78.5 79.5, 76.5 81.5, 74 81.5 C 71.5 81.5, 69.5 79.5, 69.5 77.5 C 69.5 76.5, 71 75.5, 74 75.5 Z"
+      fill="#280756" />
+
+    <!-- 7. Sonrisa: Midnight Indigo (#280756) -->
+    <path
+      d="M 66 84.5 Q 74 88.2 82 84.5"
+      stroke="#280756"
+      stroke-width="2.3"
+      stroke-linecap="round"
+      fill="none" />
+
+    <!-- 8. Mejillas: Robin Egg (#05CDC2) -->
+    <ellipse cx="56" cy="85.5" rx="3.6" ry="2.2" fill="#05CDC2" />
+    <ellipse cx="92.5" cy="85.5" rx="3.6" ry="2.2" fill="#05CDC2" />
+
+    <!-- 9. Insignia circular de verificación: Robin Egg (#05CDC2) -->
+    <circle cx="101.5" cy="98.5" r="13.5" fill="#05CDC2" />
+
+    <!-- 10. Check: Blanco puro (#FFFFFF) -->
+    <path
+      d="M 97.2 99.4 L 100.8 102.2 L 107 95.5"
+      stroke="#FFFFFF"
+      stroke-width="2.6"
+      stroke-linecap="round"
+      stroke-linejoin="round"
+      fill="none" />
+  </g>
+
+  <!-- Tipografía Oficial Itera en Comfortaa Bold -->
+  <text x="135" y="73" class="brand-title">itera</text>
+  <text x="138" y="93" class="brand-subtitle">Ritmo &amp; Constancia</text>
+</svg>
