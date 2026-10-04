@@ -1,0 +1,306 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Política de Privacidad — Itera</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Comfortaa:wght@600;700&family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+  <style>
+    :root {
+      --primary: #7C3AED;
+      --primary-dark: #280756;
+      --primary-light: #F5F3FF;
+      --accent: #9952DE;
+      --ink: #1F2937;
+      --ink-muted: #6B7280;
+      --bg: #FAF9F7;
+      --card-bg: #FFFFFF;
+      --border: #E5E7EB;
+    }
+
+    * {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
+    }
+
+    body {
+      font-family: 'Inter', -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
+      background-color: var(--bg);
+      color: var(--ink);
+      line-height: 1.7;
+      padding: 0 1.25rem 3rem;
+    }
+
+    header {
+      max-width: 860px;
+      margin: 0 auto;
+      padding: 2.5rem 0 1.5rem;
+      border-bottom: 1px solid var(--border);
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+    }
+
+    .brand {
+      display: flex;
+      align-items: center;
+      gap: 0.75rem;
+      text-decoration: none;
+      color: var(--primary-dark);
+    }
+
+    .brand svg {
+      width: 36px;
+      height: 36px;
+    }
+
+    .brand-title {
+      font-family: 'Comfortaa', cursive;
+      font-size: 1.5rem;
+      font-weight: 700;
+      color: var(--primary-dark);
+    }
+
+    .nav-links a {
+      color: var(--primary);
+      text-decoration: none;
+      font-weight: 600;
+      font-size: 0.95rem;
+      margin-left: 1.25rem;
+      transition: color 0.2s;
+    }
+
+    .nav-links a:hover {
+      color: var(--primary-dark);
+      text-decoration: underline;
+    }
+
+    main {
+      max-width: 860px;
+      margin: 2.5rem auto 0;
+      background: var(--card-bg);
+      padding: 3rem 2.5rem;
+      border-radius: 20px;
+      box-shadow: 0 4px 20px rgba(0, 0, 0, 0.04);
+      border: 1px solid var(--border);
+    }
+
+    h1 {
+      font-family: 'Comfortaa', cursive;
+      font-size: 2.25rem;
+      color: var(--primary-dark);
+      margin-bottom: 0.5rem;
+      line-height: 1.3;
+    }
+
+    .updated-date {
+      color: var(--ink-muted);
+      font-size: 0.9rem;
+      margin-bottom: 2rem;
+      display: block;
+    }
+
+    h2 {
+      font-family: 'Comfortaa', cursive;
+      font-size: 1.4rem;
+      color: var(--primary-dark);
+      margin: 2.25rem 0 1rem;
+      padding-bottom: 0.5rem;
+      border-bottom: 1px solid #F3F4F6;
+    }
+
+    h3 {
+      font-size: 1.1rem;
+      color: var(--ink);
+      margin: 1.5rem 0 0.5rem;
+      font-weight: 600;
+    }
+
+    p {
+      margin-bottom: 1.15rem;
+      color: #374151;
+    }
+
+    ul {
+      margin-bottom: 1.25rem;
+      padding-left: 1.5rem;
+      color: #374151;
+    }
+
+    li {
+      margin-bottom: 0.5rem;
+    }
+
+    .callout {
+      background: var(--primary-light);
+      border-left: 4px solid var(--primary);
+      padding: 1.25rem 1.5rem;
+      border-radius: 0 12px 12px 0;
+      margin: 1.5rem 0;
+    }
+
+    .callout p {
+      margin-bottom: 0;
+      font-weight: 500;
+      color: var(--primary-dark);
+    }
+
+    .scope-box {
+      background: #F9FAFB;
+      border: 1px solid var(--border);
+      border-radius: 12px;
+      padding: 1.25rem;
+      margin: 1rem 0;
+      font-family: monospace;
+      font-size: 0.9rem;
+      color: #4B5563;
+      word-break: break-all;
+    }
+
+    footer {
+      max-width: 860px;
+      margin: 3rem auto 0;
+      text-align: center;
+      color: var(--ink-muted);
+      font-size: 0.875rem;
+      border-top: 1px solid var(--border);
+      padding-top: 1.5rem;
+    }
+
+    @media (max-width: 640px) {
+      body {
+        padding: 0 1rem 2rem;
+      }
+      main {
+        padding: 2rem 1.25rem;
+      }
+      h1 {
+        font-size: 1.75rem;
+      }
+      header {
+        flex-direction: column;
+        gap: 1rem;
+        align-items: flex-start;
+      }
+      .nav-links a {
+        margin-left: 0;
+        margin-right: 1.25rem;
+      }
+    }
+  </style>
+</head>
+<body>
+
+  <header>
+    <a href="index.html" class="brand">
+      <svg viewBox="0 0 40 40" fill="none" xmlns="http://www.w3.org/2000/svg">
+        <rect width="40" height="40" rx="12" fill="#7C3AED"/>
+        <path d="M12 20C12 15.5817 15.5817 12 20 12C24.4183 12 28 15.5817 28 20C28 24.4183 24.4183 28 20 28" stroke="white" stroke-width="3" stroke-linecap="round"/>
+        <circle cx="20" cy="20" r="3" fill="#6EE7B7"/>
+      </svg>
+      <span class="brand-title">Itera</span>
+    </a>
+    <nav class="nav-links">
+      <a href="index.html">Inicio</a>
+      <a href="privacidad.html" style="color: var(--primary-dark);">Privacidad</a>
+      <a href="terminos.html">Términos</a>
+      <a href="https://github.com/santiloc-hub/remider_app" target="_blank" rel="noopener">GitHub</a>
+    </nav>
+  </header>
+
+  <main>
+    <h1>Política de Privacidad</h1>
+    <span class="updated-date">Última actualización: 4 de octubre de 2026</span>
+
+    <div class="callout">
+      <p><strong>Compromiso de Privacidad Nuclear:</strong> Itera es una aplicación diseñada bajo la filosofía <em>local-first</em>. Tus hábitos, notas, calendarios y archivos adjuntos viven exclusivamente en tu teléfono. No tenemos servidores propios, no registramos tu actividad y no comercializamos tu información.</p>
+    </div>
+
+    <h2>1. Responsable del Tratamiento</h2>
+    <p>Esta Política de Privacidad describe cómo <strong>Itera</strong> (en adelante, "la Aplicación", identificación de paquete Android: <code>com.santi.itera</code>), desarrollada y mantenida por <strong>Santiago Abel Montaña Vásquez</strong> (en adelante, "el Desarrollador"), gestiona la información de los usuarios.</p>
+    <p>Si tienes alguna pregunta o inquietud sobre esta política, puedes contactar al Desarrollador directamente a través del correo electrónico: <a href="mailto:santiloc23456@gmail.com" style="color: var(--primary);">santiloc23456@gmail.com</a>.</p>
+
+    <h2>2. Datos que la Aplicación Almacena Localmente</h2>
+    <p>La totalidad de tus datos funcionales se almacena de forma local en la base de datos interna de tu dispositivo (SQLite/Room Database):</p>
+    <ul>
+      <li><strong>Hábitos y Tareas:</strong> Títulos, notas descriptivas, áreas de categorización, cadencias de recurrencia (diaria, semanal, mensual, anual) y días de corte.</li>
+      <li><strong>Subtareas y Metas Parciales:</strong> Nombres de pasos individuales, orden de ejecución y configuración de recordatorios locales.</li>
+      <li><strong>Historial y Métricas de Constancia:</strong> Registro de periodos cumplidos o pendientes, marcas realizadas y rachas calculadas.</li>
+      <li><strong>Archivos Adjuntos:</strong> Documentos (PDFs, imágenes) que decidas vincular explícitamente a tus tareas, almacenados en el directorio privado de archivos de la app.</li>
+      <li><strong>Preferencias del Sistema:</strong> Modo de tema visual (claro, oscuro, sistema) y estado del tutorial de bienvenida.</li>
+    </ul>
+    <p><strong>Ninguno de estos datos se transmite a servidores del desarrollador ni a terceros.</strong></p>
+
+    <h2>3. Integración con Google Drive y Uso de Datos de APIs de Google</h2>
+    <p>Itera ofrece una funcionalidad opcional de copia de seguridad privada en la nube mediante los servicios de Google Drive.</p>
+
+    <h3>3.1. Alcance OAuth Solicitado</h3>
+    <p>La Aplicación solicita acceso de forma explícita y consentida únicamente al siguiente alcance (*scope*) de OAuth 2.0:</p>
+    <div class="scope-box">
+      https://www.googleapis.com/auth/drive.appdata
+    </div>
+
+    <h3>3.2. Finalidad del Alcance</h3>
+    <p>Este alcance se utiliza con el único y exclusivo propósito de:</p>
+    <ul>
+      <li>Crear y actualizar un archivo comprimido de respaldo denominado <code>itera_respaldo.zip</code> (que contiene la base de datos y los adjuntos locales del usuario) en la carpeta privada de datos de la aplicación (<strong>Google Drive AppDataFolder</strong>).</li>
+      <li>Buscar y descargar dicho archivo de respaldo cuando el usuario decida restaurar sus hábitos en un dispositivo nuevo o tras reinstalar la app.</li>
+    </ul>
+
+    <h3>3.3. Acceso Exclusivo a su Propio Espacio</h3>
+    <p>El alcance <code>drive.appdata</code> es un espacio oculto y estrictamente aislado asignado por Google a la Aplicación. Por diseño y restricción técnica:</p>
+    <ul>
+      <li><strong>Itera NO puede ver, leer, modificar ni eliminar ningún archivo personal</strong> (documentos, hojas de cálculo, fotos, videos u otras carpetas) alojado en tu Google Drive.</li>
+      <li>Ninguna otra aplicación de terceros tiene acceso a los datos de Itera dentro de tu Google Drive.</li>
+      <li>La Aplicación se comunica de manera directa y cifrada (HTTPS/TLS) entre tu dispositivo móvil y los servidores de Google, sin intermediación de servidores propios o de terceros.</li>
+    </ul>
+
+    <h3>3.4. Declaración de Cumplimiento de Uso Limitado de Google (Limited Use)</h3>
+    <div class="callout">
+      <p>El uso y la transferencia que Itera haga a cualquier otra aplicación de la información recibida a través de las APIs de Google se ajustarán en todo momento a la <a href="https://developers.google.com/terms/api-services-user-data-policy" target="_blank" rel="noopener" style="color: var(--primary-dark); text-decoration: underline;">Política de Datos de Usuario de los Servicios de API de Google</a>, incluidos los requisitos de <strong>Uso Limitado (Limited Use Requirements)</strong>.</p>
+    </div>
+
+    <h2>4. Rastreadores, Analíticas y Publicidad</h2>
+    <p>Itera cree en la tecnología sin ruido ni vigilancia:</p>
+    <ul>
+      <li><strong>Cero Rastreadores (Trackers):</strong> La Aplicación no incluye SDKs de telemetría, publicidad ni analíticas de terceros (como Google Analytics, Firebase Analytics, Facebook SDK, etc.).</li>
+      <li><strong>Sin Publicidad:</strong> No se muestran anuncios ni se recopilan identificadores de publicidad (Advertising ID).</li>
+      <li><strong>Sin Cuentas Obligatorias:</strong> Puedes usar Itera de manera 100% anónima como invitado sin conectar ninguna cuenta.</li>
+    </ul>
+
+    <h2>5. Permisos del Dispositivo Android</h2>
+    <p>Para su correcto funcionamiento, la app puede solicitar los siguientes permisos en tiempo de ejecución:</p>
+    <ul>
+      <li><code>POST_NOTIFICATIONS</code> (Android 13+): Utilizado exclusivamente para enviarte avisos y recordatorios de tus tareas y subtareas en las horas programadas por ti.</li>
+      <li><code>READ_EXTERNAL_STORAGE</code> / Photo Picker (Android 12 y anteriores / 13+): Empleado únicamente cuando seleccionas un archivo o imagen para adjuntar a una tarea.</li>
+      <li><code>INTERNET</code>: Empleado exclusivamente para la comunicación cifrada con las APIs oficiales de Google Drive durante la sincronización o restauración que tú actives o en el respaldo automático diario si está configurado.</li>
+    </ul>
+
+    <h2>6. Retención y Eliminación de Datos</h2>
+    <p>Dado que los datos están en tu poder, tú tienes el control absoluto sobre su ciclo de vida:</p>
+    <ul>
+      <li><strong>Eliminación Local:</strong> Puedes eliminar tareas individuales, áreas o vaciar la base de datos desinstalando la aplicación o borrando los datos de almacenamiento desde los ajustes de Android.</li>
+      <li><strong>Eliminación en la Nube:</strong> Puedes eliminar tu copia de respaldo de Google Drive cerrando sesión desde la pantalla de Ajustes de Itera o gestionando tus aplicaciones conectadas en la página de seguridad de tu cuenta de Google (<a href="https://myaccount.google.com/permissions" target="_blank" rel="noopener" style="color: var(--primary);">myaccount.google.com/permissions</a>).</li>
+    </ul>
+
+    <h2>7. Cambios en esta Política de Privacidad</h2>
+    <p>Si en el futuro se realizan actualizaciones sustanciales a esta Política de Privacidad, se reflejará la nueva fecha de actualización al inicio de este documento y se documentará en el registro oficial de cambios (<code>CHANGELOG.md</code>) de la aplicación.</p>
+
+    <h2>8. Contacto</h2>
+    <p>Para cualquier duda, solicitud o aclaración relativa a esta Política de Privacidad o al tratamiento de tus datos, puedes ponerte en contacto con el desarrollador:</p>
+    <p>
+      <strong>Santiago Abel Montaña Vásquez</strong><br>
+      Correo electrónico: <a href="mailto:santiloc23456@gmail.com" style="color: var(--primary);">santiloc23456@gmail.com</a><br>
+      Repositorio oficial: <a href="https://github.com/santiloc-hub/remider_app" target="_blank" rel="noopener" style="color: var(--primary);">github.com/santiloc-hub/remider_app</a>
+    </p>
+  </main>
+
+  <footer>
+    <p>&copy; 2026 Itera. Diseñado con enfoque local-first y privacidad garantizada.</p>
+  </footer>
+
+</body>
+</html>
